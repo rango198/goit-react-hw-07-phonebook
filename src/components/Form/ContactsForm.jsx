@@ -13,6 +13,7 @@ import {
 } from './ContactsForm.styled';
 
 import { postContactThunk } from 'components/fetchAPI';
+import { useDispatch } from 'react-redux';
 
 const initialValues = {
   name: '',
@@ -44,11 +45,12 @@ const schema = Yup.object().shape({
 });
 
 export const ContactsForm = () => {
+  const dispatch = useDispatch();
   return (
     <div>
       <Formik
         onSubmit={(values, { resetForm }) => {
-          postContactThunk({ ...values });
+          dispatch(postContactThunk({ ...values }));
           resetForm();
         }}
         initialValues={initialValues}
