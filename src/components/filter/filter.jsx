@@ -1,15 +1,15 @@
 import { IoIosSearch } from 'react-icons/io';
 import { Input } from './Filter.styled';
-import { getFilter, setFilter } from 'components/redux/filter-slice';
+import { filterSet, getFilter } from 'components/redux/filter-slice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  const filterName = useSelector(getFilter);
+  const filterPhoneBook = useSelector(getFilter);
 
   const onChangeFilter = event => {
     const { value } = event.currentTarget;
-    dispatch(setFilter(value));
+    dispatch(filterSet(value));
   };
 
   return (
@@ -21,7 +21,7 @@ export const Filter = () => {
       <Input
         type="text"
         name="filter"
-        value={filterName}
+        value={filterPhoneBook}
         placeholder="search"
         onChange={onChangeFilter}
       />

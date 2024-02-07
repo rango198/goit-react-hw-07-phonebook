@@ -1,31 +1,57 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import {
+  delContactThunk,
+  getContactsThunk,
+  postContactThunk,
+} from 'components/fetchAPI';
 
-const contactsSlice = createSlice({
-  name: 'phoneBooks',
-  initialState: [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ],
-  reducers: {
-    addContact: {
-      reducer: (state, { payload }) => {
-        state.push(payload);
-      },
-      prepare: data => {
-        return {
-          payload: {
-            id: nanoid(),
-            ...data,
-          },
-        };
-      },
-    },
-    deleteContact: (state, { payload }) =>
-      state.filter(item => item.id !== payload),
+const contactInitialState = {
+  contacts: [],
+  isLoading: false,
+  error: null,
+};
+
+const onPending = state => {
+  state.isLoading = true;
+  state.error = null;
+};
+
+const onRejected = (state, { payload }) => {
+  state.isLoading = false;
+  state.error = payload;
+};
+
+const arrOfActs = [getContactsThunk, postContactThunk, delContactThunk];
+
+const addStatusToActs = status => arrOfActs.map(el => el[status]);
+
+export const phoneBookSlice = createSlice({
+  name: 'phoneBook',
+  initialState: contactInitialState,
+  extraReducers: builder => {
+    builder
+      .addCase(getContactsThunk.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.contacts = payload;
+        state.error = null;
+      })
+      .addCase(postContactThunk.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.contacts = [...state.contacts, payload];
+        state.error = null;
+      })
+      .addCase(delContactThunk.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.contacts = state.contacts.filter(
+          contact => contact.id !== payload.id
+        );
+        state.error = null;
+      })
+      .addMatcher(isAnyOf(...addStatusToActs('pending')), onPending)
+      .addMatcher(isAnyOf(...addStatusToActs('rejected')), onRejected);
   },
 });
-export const { addContact, deleteContact } = contactsSlice.actions;
-export default contactsSlice.reducer;
+
+export const getPhoneBookValue = state => state.phoneBook.contacts;
+export const getIsLoading = state => state.phoneBook.isLoading;
+export const getError = state => state.phoneBook.error;

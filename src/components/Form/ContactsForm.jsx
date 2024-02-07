@@ -2,7 +2,7 @@ import { FaPhoneAlt } from 'react-icons/fa';
 import { GiGingerbreadMan } from 'react-icons/gi';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { Formik, ErrorMessage } from 'formik';
-import { nanoid } from 'nanoid';
+
 import * as Yup from 'yup';
 import {
   BtnPhone,
@@ -11,10 +11,8 @@ import {
   Formstyled,
   Label,
 } from './ContactsForm.styled';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'components/redux/contacts-slice';
-import { getFilteredContacts } from 'components/redux/selectors';
-import { Notify } from 'notiflix';
+
+import { postContactThunk } from 'components/fetchAPI';
 
 const initialValues = {
   name: '',
@@ -46,34 +44,11 @@ const schema = Yup.object().shape({
 });
 
 export const ContactsForm = () => {
-  const contacts = useSelector(getFilteredContacts);
-  const dispatch = useDispatch();
-
-  const addContacts = newContact => {
-    const isContactsExist = contacts.some(
-      contact =>
-        contact.name.toLowerCase().trim() ===
-          newContact.name.toLowerCase().trim() ||
-        contact.number.trim() === newContact.number.trim()
-    );
-    if (isContactsExist) {
-      Notify.warning(`${newContact.name}: is already in contacts`, {
-        width: '400px',
-        position: 'center-center',
-        timeout: 3000,
-        fontSize: '20px',
-      });
-    } else {
-      const action = addContact(newContact);
-      dispatch(action);
-    }
-  };
-
   return (
     <div>
       <Formik
         onSubmit={(values, { resetForm }) => {
-          addContacts({ id: nanoid(), ...values });
+          postContactThunk({ ...values });
           resetForm();
         }}
         initialValues={initialValues}

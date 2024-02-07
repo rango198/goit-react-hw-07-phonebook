@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import persistStore from 'redux-persist/es/persistStore';
-
-import rootReducer from './reducer';
+import { phoneBookSlice } from './contacts-slice';
+import { filterSlice } from './filter-slice';
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    phoneBook: phoneBookSlice.reducer,
+    filter: filterSlice.reducer,
+  },
 });
-export const persistor = persistStore(store);
