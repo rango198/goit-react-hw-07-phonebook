@@ -9,10 +9,6 @@ import {
   Container,
   PhoneWrap,
 } from './App.styled';
-// import { Error } from './Error/Error';
-// import { useSelector } from 'react-redux';
-// import { Loader } from './Loader/Loader';
-// import { selectError, selectIsLoading } from './redux/selects';
 
 export const App = () => {
   return (
