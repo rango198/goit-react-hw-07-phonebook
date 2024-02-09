@@ -25,4 +25,5 @@ export const BtnItem = styled.button`
 export const ListItem = styled.li`
   display: flex;
   gap: 6px;
+  cursor: pointer;
 `;

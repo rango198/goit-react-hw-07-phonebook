@@ -1,9 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import {
-  delContactThunk,
-  getContactsThunk,
-  postContactThunk,
-} from 'components/fetchAPI';
+import { delContactThunk, getContactsThunk, postContactThunk } from './options';
 
 const contactInitialState = {
   contacts: [],

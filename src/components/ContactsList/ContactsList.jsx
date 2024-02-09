@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getPhoneBookValue } from 'components/redux/contacts-slice';
 import { getFilter } from 'components/redux/filter-slice';
-import { delContactThunk, getContactsThunk } from 'components/fetchAPI';
+
 import { Modal } from 'components/Modal/Modal';
+import { delContactThunk, getContactsThunk } from 'components/redux/options';
 
 export const ContactsList = () => {
   const [selectedContact, setSelectedContact] = useState(null);
@@ -42,8 +43,8 @@ export const ContactsList = () => {
       <List>
         {visibleContacts.map(({ name, phone, id }) => {
           return (
-            <ListItem key={id} onClick={() => setModalData(id)}>
-              <span>{name}:</span>
+            <ListItem key={id}>
+              <span onClick={() => setModalData(id)}>{name}:</span>
               <span>{phone}</span>
               <BtnItem type="button" onClick={() => deleteContact(id)}>
                 Delete

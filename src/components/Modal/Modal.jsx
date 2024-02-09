@@ -1,28 +1,40 @@
-import { ModalContact } from './Modal.styled';
+import { delContactThunk } from 'components/redux/options';
+import {
+  ButtonClose,
+  ButtonDelete,
+  IMG,
+  ModalContact,
+  TextAdderess,
+  TextName,
+  TextPhone,
+  WrapDiv,
+} from './Modal.styled';
 
 import { useDispatch } from 'react-redux';
-import { delContactThunk } from 'components/fetchAPI';
-import { BtnItem } from 'components/ContactsList/ContactsList.styled';
 
 export const Modal = ({ data, onClose }) => {
   const dispatch = useDispatch();
+
   const deleteContact = contactId => {
     dispatch(delContactThunk(contactId));
+    onClose();
   };
   return (
     <ModalContact>
-      <button type="button" onClick={onClose}>
+      <ButtonClose type="button" onClick={onClose}>
         Close
-      </button>
-      <div>
-        <img src={data.image} alt={data.name} />
-        <div>Name:{data.name}</div>
-        <div>Phone:{data.phone}</div>
-        <div>Adderess:{data.address}</div>
-        <BtnItem type="button" onClick={() => deleteContact(data.id)}>
-          Delete
-        </BtnItem>
-      </div>
+      </ButtonClose>
+      <WrapDiv>
+        <IMG src={data.image} alt={data.name} />
+        <div>
+          <TextName>Name:{data.name}</TextName>
+          <TextPhone>Phone:{data.phone}</TextPhone>
+          <TextAdderess>Adderess:{data.address}</TextAdderess>
+        </div>
+      </WrapDiv>
+      <ButtonDelete type="button" onClick={() => deleteContact(data.id)}>
+        Delete
+      </ButtonDelete>
     </ModalContact>
   );
 };

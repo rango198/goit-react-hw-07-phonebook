@@ -12,12 +12,12 @@ import {
   Label,
 } from './ContactsForm.styled';
 
-import { postContactThunk } from 'components/fetchAPI';
 import { useDispatch } from 'react-redux';
+import { postContactThunk } from 'components/redux/options';
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 const FormError = ({ name }) => {
@@ -36,7 +36,7 @@ const schema = Yup.object().shape({
       'the name is not entered correctly'
     )
     .required(),
-  number: Yup.string()
+  phone: Yup.string()
     .matches(
       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
       'the number is not entered correctly, parentheses and can start with +'
@@ -46,11 +46,15 @@ const schema = Yup.object().shape({
 
 export const ContactsForm = () => {
   const dispatch = useDispatch();
+
+  const onAddContact = data => {
+    dispatch(postContactThunk(data));
+  };
   return (
     <div>
       <Formik
         onSubmit={(values, { resetForm }) => {
-          dispatch(postContactThunk({ ...values }));
+          onAddContact({ ...values });
           resetForm();
         }}
         initialValues={initialValues}
@@ -67,11 +71,11 @@ export const ContactsForm = () => {
 
           <Label>
             <div>
-              <FaPhoneAlt /> Number
+              <FaPhoneAlt /> Phone
             </div>
           </Label>
-          <FieldInput name="number" type="tel" />
-          <FormError name="number" component="span" />
+          <FieldInput name="phone" type="tel" />
+          <FormError name="phone" component="span" />
 
           <BtnPhone type="submit">
             Add contact <AiOutlineUserAdd />

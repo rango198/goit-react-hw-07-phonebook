@@ -1,3 +1,5 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ContactsList } from './ContactsList/ContactsList';
 import { Filter } from './filter/filter';
 import { ContactsForm } from './Form/ContactsForm';
@@ -28,6 +30,7 @@ export const App = () => {
           {isLoading && <Loader />}
           {error ? <Error /> : <ContactsList />}
         </ContactsWrap>
+        <ToastContainer />
       </Container>
     </BackgroundColor>
   );
