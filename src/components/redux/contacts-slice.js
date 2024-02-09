@@ -39,7 +39,7 @@ export const phoneBookSlice = createSlice({
       .addCase(delContactThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.contacts = state.contacts.filter(
-          contact => contact.id !== payload.id
+          contact => contact.id !== payload
         );
         state.error = null;
       })
