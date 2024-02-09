@@ -14,7 +14,7 @@ export const ModalContact = styled.div`
   align-items: center;
   overflow: hidden;
   padding: 5px;
-  background-color: rgba(90, 107, 110, 0.966);
+  background-color: rgba(228, 169, 201, 0.979);
   box-shadow: 0 2px 39px rgba(0, 0, 0, 1.2);
 `;
 
