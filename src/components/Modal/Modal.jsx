@@ -11,16 +11,32 @@ import {
 } from './Modal.styled';
 
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 export const Modal = ({ data, onClose }) => {
   const dispatch = useDispatch();
-
   const deleteContact = contactId => {
     dispatch(delContactThunk(contactId));
     onClose();
   };
+  const closeModal = ({ currentTarget, target, code }) => {
+    if (currentTarget === target || code === 'Escape') {
+      onClose();
+    }
+  };
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.code === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
   return (
-    <ModalContact>
+    <ModalContact onClick={closeModal}>
       <ButtonClose type="button" onClick={onClose}>
         Close
       </ButtonClose>
