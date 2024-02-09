@@ -11,12 +11,12 @@ import {
 } from './App.styled';
 import { Error } from './Error/Error';
 import { useSelector } from 'react-redux';
-import { getError, getIsLoading } from './redux/contacts-slice';
 import { Loader } from './Loader/Loader';
+import { selectError, selectIsLoading } from './redux/selects';
 
 export const App = () => {
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   return (
     <BackgroundColor>
       <Container>

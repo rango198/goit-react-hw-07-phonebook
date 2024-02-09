@@ -2,11 +2,10 @@ import { BtnItem, List, ListItem } from './ContactsList.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getPhoneBookValue } from 'components/redux/contacts-slice';
-import { getFilter } from 'components/redux/filter-slice';
 
 import { Modal } from 'components/Modal/Modal';
 import { delContactThunk, getContactsThunk } from 'components/redux/options';
+import { selectFilter, selectPhoneBookValue } from 'components/redux/selects';
 
 export const ContactsList = () => {
   const [selectedContact, setSelectedContact] = useState(null);
@@ -17,14 +16,17 @@ export const ContactsList = () => {
     dispatch(getContactsThunk());
   }, [dispatch]);
 
-  const phoneBook = useSelector(getPhoneBookValue);
+  const phoneBook = useSelector(selectPhoneBookValue);
 
-  const filterPhoneBook = useSelector(getFilter);
+  const filterPhoneBook = useSelector(selectFilter);
 
   const lowerFilter = filterPhoneBook.toLowerCase();
   const visibleContacts = phoneBook.filter(({ name }) =>
     name.toLowerCase().includes(lowerFilter)
   );
+
+  // visibleContacts;
+
   const deleteContact = contactId => {
     dispatch(delContactThunk(contactId));
   };

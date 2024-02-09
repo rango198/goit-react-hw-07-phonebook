@@ -1,11 +1,12 @@
 import { IoIosSearch } from 'react-icons/io';
 import { Input } from './Filter.styled';
-import { filterSet, getFilter } from 'components/redux/filter-slice';
+import { filterSet } from 'components/redux/filter-slice';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectFilter } from 'components/redux/selects';
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  const filterPhoneBook = useSelector(getFilter);
+  const filterPhoneBook = useSelector(selectFilter);
 
   const onChangeFilter = event => {
     const { value } = event.currentTarget;
