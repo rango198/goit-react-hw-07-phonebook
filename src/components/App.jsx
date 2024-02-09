@@ -9,14 +9,12 @@ import {
   Container,
   PhoneWrap,
 } from './App.styled';
-import { Error } from './Error/Error';
-import { useSelector } from 'react-redux';
-import { Loader } from './Loader/Loader';
-import { selectError, selectIsLoading } from './redux/selects';
+// import { Error } from './Error/Error';
+// import { useSelector } from 'react-redux';
+// import { Loader } from './Loader/Loader';
+// import { selectError, selectIsLoading } from './redux/selects';
 
 export const App = () => {
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
   return (
     <BackgroundColor>
       <Container>
@@ -27,8 +25,7 @@ export const App = () => {
         <ContactsWrap>
           <h2>Contacts</h2>
           <Filter />
-          {isLoading && <Loader />}
-          {error ? <Error /> : <ContactsList />}
+          <ContactsList />
         </ContactsWrap>
         <ToastContainer />
       </Container>

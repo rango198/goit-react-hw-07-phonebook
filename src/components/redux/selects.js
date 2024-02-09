@@ -10,7 +10,7 @@ export const selectPhoneBookValue = createSelector(selectContacts, contacts =>
 );
 
 export const selectFilteredContacts = createSelector(
-  [selectContacts, selectFilter],
+  [selectPhoneBookValue, selectFilter],
   (contacts, filter) => {
     if (!filter) {
       return contacts;
